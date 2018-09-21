@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 void main() => runApp(new MaterialApp(
   initialRoute: '/',
   routes: {
@@ -30,14 +30,26 @@ class FirstScreen extends StatelessWidget {
                 controller: _name_to_show_controller,),
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context,
-                      '/second');
+                
+                  startScreenAndGetResult(context);
                 },
                 child: Text('Go '),
               )
             ],),
         ));
   }
+
+  void startScreenAndGetResult(BuildContext context) async{
+    
+    final result = await Navigator.pushNamed(context, '/second'
+    );
+    //show result
+    Fluttertoast.showToast(msg:result,
+      toastLength:Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      bgcolor: '#000000',
+      textcolor: '#ffffff');
+   }
 }
 class SecondScreen extends StatelessWidget {
 
@@ -55,13 +67,31 @@ class SecondScreen extends StatelessWidget {
           child: Column(mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text('Hello $nameToShow'),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Go Back'),
-              )
+
+              //Add Row and add 2 button to this row
+              Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+
+                //Add Raise Button with padding
+                Padding(padding: const EdgeInsets.all(8.0),child: RaisedButton(onPressed: (){
+
+                  Navigator.pop(context,"How Are You ?");
+
+                },child: Text('Continue Taking '),),
+              ),
+
+                Padding(padding: const EdgeInsets.all(8.0),child: RaisedButton(onPressed: (){
+
+                  Navigator.pop(context," Good bye ");
+
+                  },child: Text('Stop Taking '),),
+                ),
+
+              ],),
+
             ],),
-        ));
+        )
+    );
+
+
   }
 }
